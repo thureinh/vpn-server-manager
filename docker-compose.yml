@@ -1,0 +1,74 @@
+version: '3.9'
+
+services:
+  nginx:
+    container_name: gc_server
+    build:
+      context: ./docker/nginx
+      dockerfile: ./Dockerfile
+    networks:
+      - client-side
+    ports:
+      - 8080:80
+    depends_on:
+      - express
+      - nuxt
+
+  express:
+    container_name: gc_backend
+    build:
+      context: .
+      dockerfile: ./docker/express/Dockerfile
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./backend:/home/node/app
+      - /home/node/app/node_modules
+    networks:
+      - client-side
+      - server-side
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+
+  nuxt:
+    container_name: gc_frontend
+    build:
+      context: .
+      dockerfile: ./docker/nuxt/Dockerfile
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=development
+    networks:
+      - client-side
+    volumes:
+      - ./frontend:/home/node/app
+      - /home/node/app/node_modules
+      - /home/node/app/.nuxt
+      - /home/node/app/app
+    ports:
+      - 4000:4000
+  
+  db:
+    container_name: gc_db
+    image: postgres:16.1
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - server-side
+    environment:
+      - POSTGRES_USER=gc_user
+      - POSTGRES_DB=gc_db
+      - POSTGRES_PASSWORD=12345
+    ports:
+      - 5432:5432
+
+networks:
+  client-side: {}
+  server-side: {}
+
+volumes:
+  db-data: {}
