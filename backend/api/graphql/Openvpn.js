@@ -1,7 +1,5 @@
-const { objectType, mutationType } = require('nexus')
-const { ec2 } = require('../aws')
-
-const OPENVPN_INSTANCE_ID = 'i-00d97b626c0dcdcad'
+const { objectType, mutationType, extendType } = require('nexus')
+const { ec2, ssm } = require('../aws')
 
 const VpnServer = objectType({
     name: 'VpnServer',
@@ -11,21 +9,43 @@ const VpnServer = objectType({
     },
 })
 
-const Mutation = mutationType({
+const VpnQuery = extendType({
+    type: 'Query',
+    definition(t) {
+        t.field('getVpnServerState', {
+            type: 'VpnServer',
+            resolve: async () => {
+                const params = {
+                    InstanceIds: [process.env.OPENVPN_INSTANCE_ID],
+                }
+
+                const result = await ec2.describeInstances(params).promise()
+
+                return {
+                    instanceId: result.Reservations[0].Instances[0].InstanceId,
+                    state: result.Reservations[0].Instances[0].State.Name,
+                }
+            },
+        })
+    },
+})
+
+const VpnMutation = extendType({
+    type: 'Mutation',
     definition(t) {
         t.field('startVpnServer', {
             type: 'VpnServer',
             resolve: async () => {
                 const params = {
-                    InstanceIds: [OPENVPN_INSTANCE_ID],
-                };
+                    InstanceIds: [process.env.OPENVPN_INSTANCE_ID],
+                }
 
                 const result = await ec2.startInstances(params).promise()
 
                 return {
                     instanceId: result.StartingInstances[0].InstanceId,
                     state: result.StartingInstances[0].CurrentState.Name,
-                };
+                }
             },
         })
 
@@ -33,7 +53,7 @@ const Mutation = mutationType({
             type: 'VpnServer',
             resolve: async () => {
                 const params = {
-                    InstanceIds: [OPENVPN_INSTANCE_ID],
+                    InstanceIds: [process.env.OPENVPN_INSTANCE_ID],
                 }
 
                 const result = await ec2.stopInstances(params).promise()
@@ -45,19 +65,45 @@ const Mutation = mutationType({
             },
         })
 
-        t.field('getVpnServerState', {
+        t.field('testVpnSSH', {
             type: 'VpnServer',
             resolve: async () => {
                 const params = {
-                    InstanceIds: [OPENVPN_INSTANCE_ID],
+                    DocumentName: 'AWS-RunShellScript',
+                    InstanceIds: [process.env.OPENVPN_INSTANCE_ID],
+                    Parameters: {
+                        'commands': [
+                            'cd /home/ubuntu',
+                            'ls -l'
+                        ],
+                    },
                 }
 
-                const result = await ec2.describeInstances(params).promise()
+                ssm.sendCommand(params, (err, data) => {
+                    if (err) {
+                        console.log(err, err.stack)
+                    } else {
+                        setTimeout(() => {
+                            const commandId = data.Command.CommandId
+
+                            ssm.getCommandInvocation({
+                                CommandId: commandId,
+                                InstanceId: process.env.OPENVPN_INSTANCE_ID,
+                            }, (err, data) => {
+                                if (err) {
+                                    console.log(err, err.stack)
+                                } else {
+                                    console.log(data.StandardOutputContent)
+                                }
+                            })
+                        }, 5000)
+                    }
+                })
 
                 return {
-                    instanceId: result.Reservations[0].Instances[0].InstanceId,
-                    state: result.Reservations[0].Instances[0].State.Name,
-                };
+                    instanceId: 'i-1234567890abcdef0',
+                    state: 'running',
+                }
             },
         })
     },
@@ -65,5 +111,6 @@ const Mutation = mutationType({
 
 module.exports = {
     VpnServer,
-    Mutation,
+    VpnQuery,
+    VpnMutation,
 }

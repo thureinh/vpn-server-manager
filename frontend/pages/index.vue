@@ -10,6 +10,7 @@
 </script>
 <template>
     <div>
-        <Dashboard />
+        <VPNDashboard class="mb-3" />
+        <CADashboard />
     </div>
 </template>

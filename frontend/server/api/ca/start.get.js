@@ -1,26 +1,25 @@
 import backendApi from '../../utils/api';
 
 export default defineEventHandler(async (event) => {
-    const queryServerState = `
-        {
-            getVpnServerState {
+    const mutationServerStart = `
+        mutation {
+            startCaServer {
                 instanceId
                 state
             }
         }
-    `;
-
+    `
     let response = await backendApi.post('/api/v1/', {
-        query: queryServerState,
+        query: mutationServerStart,
     })
 
     let { data } = response.data
-
+    
     if (data.errors) {
         throw createError({ statusCode: 403, statusMessage: data.errors[0].message })
     }
-
+  
     return {
-        state: data.getVpnServerState.state,
+        state: data.startCaServer.state,
     }
 })

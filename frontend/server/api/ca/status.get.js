@@ -3,7 +3,7 @@ import backendApi from '../../utils/api';
 export default defineEventHandler(async (event) => {
     const queryServerState = `
         {
-            getVpnServerState {
+            getCaServerState {
                 instanceId
                 state
             }
@@ -21,6 +21,6 @@ export default defineEventHandler(async (event) => {
     }
 
     return {
-        state: data.getVpnServerState.state,
+        state: data.getCaServerState.state,
     }
 })

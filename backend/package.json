@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "start-dev": "npm run db-setup && ts-node-dev --transpile-only --no-notify ./bin/www",
+    "build": "npm run db-setup && npx prisma db seed && tsc",
     "db-setup": "npx prisma generate && npx prisma migrate dev --name init"
   },
   "dependencies": {

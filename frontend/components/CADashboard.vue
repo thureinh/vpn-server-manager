@@ -3,7 +3,7 @@
     let intervalId = null
     const getServerStatus = async () => {
         try {
-            const response = await $fetch('/api/openvpn/status')
+            const response = await $fetch('/api/ca/status')
             serverStatus.value = response.state
         } catch (error) {
             console.error(error)
@@ -37,8 +37,8 @@
         'text-purple-600': serverStatus.value === 'pending',
     }))
     
-    const startVpnServer = () => changeVpnServerState('/api/openvpn/start', 'running')
-    const stopVpnServer = () => changeVpnServerState('/api/openvpn/stop', 'stopped')
+    const startVpnServer = () => changeVpnServerState('/api/ca/start', 'running')
+    const stopVpnServer = () => changeVpnServerState('/api/ca/stop', 'stopped')
 
     onMounted(() => {
         getServerStatus()
@@ -46,7 +46,7 @@
 </script>
 <template>
     <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-gray-700 text-xl font-semibold mb-4">Server Control</h2>
+        <h2 class="text-gray-700 text-xl font-semibold mb-4">CA Server Control</h2>
 
         <!-- Buttons Section -->
         <div class="flex flex-wrap gap-4">

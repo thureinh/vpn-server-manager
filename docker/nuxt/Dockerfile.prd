@@ -1,0 +1,23 @@
+FROM node:21-alpine3.18 AS build
+WORKDIR /home/node/app
+
+COPY frontend/components ./components
+COPY frontend/layouts ./layouts
+COPY frontend/pages ./pages
+COPY frontend/public ./public
+COPY frontend/server ./server
+COPY frontend/app.vue ./app.vue
+COPY frontend/nuxt.config.ts ./
+COPY frontend/package.json ./
+COPY frontend/tsconfig.json ./
+COPY frontend/.env.prd ./.env
+
+RUN npm install
+RUN npm run build
+
+FROM node:21-alpine3.18 AS production
+WORKDIR /home/node/app
+COPY --from=build /home/node/app/.output .output
+COPY frontend/package.json ./
+
+CMD ["npm", "run", "start"]

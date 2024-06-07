@@ -1,7 +1,7 @@
 import backendApi from '../../utils/api';
 import { setToken } from '../../utils/tokenStore';
 
-export const SECRET = 'lawson' // put to env file later
+export const SECRET = process.env.JWT_SECRET
 
 export default defineEventHandler(async (event) => {
 

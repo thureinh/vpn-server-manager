@@ -26,6 +26,7 @@ const AuthMutation = extendType({
             type: 'AuthPayload',
             args: { data: LoginInput },
             async resolve(_root, args, ctx) {
+                console.log('db_url', process.env.DB_URL)
                 const payload = args.data
                 const user = await ctx.db.user.findUnique({ where: { name: payload.name } })
                 if (null !== user && bcrypt.compareSync(payload.password, user.password)) {

@@ -12,16 +12,12 @@
             buttonState.value =
                 buttonState.value === "showMemberForm" ? "showMemberList" : "showMemberForm"
         }
-        if (route.path === "/") {
-            buttonState.value =
-                buttonState.value === "showTaskForm" ? "showTaskList" : "showTaskForm"
-        }
     };
 
     const buttonNameFormatter = (str) => {
         return str
             .replace(/([A-Z])/g, ' $1')
-            .replace(/^./, function(str){ return str.toUpperCase(); })
+            .replace(/^./, function(str){ return str.toUpperCase() })
             .trim()
     }
 </script>

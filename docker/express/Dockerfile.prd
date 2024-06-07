@@ -1,0 +1,25 @@
+FROM node:21-alpine3.18 AS build
+WORKDIR /home/node/app
+COPY backend/api ./api
+COPY backend/bin ./bin
+COPY backend/permission ./permission
+COPY backend/prisma ./prisma
+COPY backend/public ./public
+COPY backend/routes ./routes
+COPY backend/views ./views
+COPY backend/.env.prd ./.env
+COPY backend/app.js ./
+COPY backend/nexus-typegen.ts ./
+COPY backend/package.json ./
+COPY backend/schema.graphql ./
+COPY backend/tsconfig.json ./
+RUN npm install
+
+FROM node:21-alpine3.18 AS production
+WORKDIR /home/node/app
+COPY --from=build /home/node/app ./
+COPY docker/express/entry.sh ./
+
+RUN chmod +x ./entry.sh
+
+ENTRYPOINT ["./entry.sh"]
