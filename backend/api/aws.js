@@ -6,5 +6,6 @@ AWS.config.secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
 
 const ec2 = new AWS.EC2({apiVersion: '2016-11-15'})
 const ssm = new AWS.SSM()
+const s3 = new AWS.S3()
 
-module.exports = { ec2, ssm }
+module.exports = { ec2, ssm, s3 }

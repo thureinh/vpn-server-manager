@@ -1,5 +1,5 @@
-const { objectType, mutationType, extendType } = require('nexus')
-const { ec2 } = require('../aws')
+const { objectType, extendType, nonNull, stringArg } = require('nexus')
+const { ec2, ssm } = require('../aws')
 
 const CaServer = objectType({
     name: 'CaServer',
@@ -25,6 +25,37 @@ const CaQuery = extendType({
                     instanceId: result.Reservations[0].Instances[0].InstanceId,
                     state: result.Reservations[0].Instances[0].State.Name,
                 }
+            },
+        })
+        t.field('checkCaCommandOutput', {
+            type: 'CommandOutput',
+            args: {
+                commandId: nonNull(stringArg()),
+            },
+            resolve: async (_, { commandId }) => {
+                return new Promise((resolve, reject) => {
+                    const params = {
+                        CommandId: commandId,
+                        InstanceId: process.env.CA_INSTANCE_ID,
+                    }
+
+                    ssm.getCommandInvocation(params, (err, data) => {
+                        if (err) {
+                            console.error(err, err.stack)
+                            resolve({
+                                commandId: commandId,
+                                status: 'FAILED',
+                                output: '',
+                            })
+                        } else {
+                            resolve({
+                                commandId: data.CommandId,
+                                status: data.Status,
+                                output: data.StandardOutputContent,
+                            })
+                        }
+                    })
+                })
             },
         })
     },
@@ -62,6 +93,45 @@ const CaMutation = extendType({
                     instanceId: result.StoppingInstances[0].InstanceId,
                     state: result.StoppingInstances[0].CurrentState.Name,
                 }
+            },
+        })
+
+        t.field('createCert', {
+            type: 'CommandOutput',
+            args: {
+                name: nonNull(stringArg()),
+            },
+            resolve: async (_parent, args, _context, _info) => {
+                const { name } = args
+                const params = {
+                    DocumentName: 'AWS-RunShellScript',
+                    InstanceIds: [process.env.CA_INSTANCE_ID],
+                    Parameters: {
+                        'commands': [
+                            `cd /home/ubuntu/`,
+                            `./generate_cert.sh ${name}`,
+                        ],
+                    },
+                }
+
+                return new Promise((resolve, reject) => {
+                    ssm.sendCommand(params, (err, data) => {
+                        if (err) {
+                            console.error(err, err.stack)
+                            resolve({
+                                commandId: '',
+                                status: 'FAILED',
+                                output: '',
+                            })
+                        } else {
+                            resolve({
+                                commandId: data.Command.CommandId,
+                                status: data.Command.Status,
+                                output: '',
+                            })
+                        }
+                    })
+                })
             },
         })
     },
