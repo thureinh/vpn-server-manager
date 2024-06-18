@@ -6,6 +6,10 @@ KEY_DIR=/home/ubuntu/client-configs/keys
 CLIENT_DIR=/home/ubuntu/mnt/efs/client/${1}/
 OUTPUT_DIR=/home/ubuntu/client-configs/files
 BASE_CONFIG=/home/ubuntu/client-configs/base.conf
+
+PUBLIC_IP=$(curl -s ifconfig.me)
+
+sed -i "s/remote \[Dynamic IP\] 443/remote ${PUBLIC_IP} 443/g" ${BASE_CONFIG}
  
 cat ${BASE_CONFIG} \
     <(echo -e '<ca>') \

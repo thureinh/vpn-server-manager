@@ -10,5 +10,5 @@ cd /home/ubuntu/easy-rsa/
 # Copy the key to the specified directory
 cd /home/ubuntu/
 mkdir -p mnt/efs/client/${name}
-cp easy-rsa/pki/private/${name}.key mnt/efs/client/${name}/
-cp easy-rsa/pki/reqs/${name}.req mnt/efs/client/${name}/
+mv easy-rsa/pki/private/${name}.key mnt/efs/client/${name}/
+mv easy-rsa/pki/reqs/${name}.req mnt/efs/client/${name}/
