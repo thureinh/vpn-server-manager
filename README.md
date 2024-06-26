@@ -10,7 +10,7 @@
 
 フロントエンドは、[frontend](frontend/)ディレクトリにあるNuxt.jsアプリケーションです。ユーザーインターフェースにはVue.js、ルーティングにはVue Routerを使用しています。また、HTTPリクエストにはAxios、認証にはJSON Web Tokensを使用しています。
 
-## Technologies Used
+## 使用技術
 
 - Node.js
 - Express
