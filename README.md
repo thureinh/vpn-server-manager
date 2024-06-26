@@ -28,3 +28,5 @@ The frontend is a Nuxt.js application located in the [frontend](frontend/) direc
 ## License
 
 This project is licensed under the terms of the license found in the [LICENSE](LICENSE) file.
+
+![Architecture Diagram](docs/architecture.png)
