@@ -1,16 +1,14 @@
-# VPN Server Manager
+# VPNサーバーマネージャー
 
-This project is a full-stack application that consists of two main parts: the backend, the frontend.
+このプロジェクトは、これは、OpenVPNサーバー管理ツールおよびクライアント構成ファイル生成ツールです。主に2つの部分からなるフルスタックアプリケーションです：バックエンドとフロントエンド。
 
-## Backend
+## バックエンド
 
-The backend is a Node.js application located in the [backend](backend/) directory. It uses Express for server management, GraphQL for API structure, and Prisma for database operations. The backend also uses JWT for authentication and AWS SDK for cloud services.
+バックエンドは、[backend](backend/)ディレクトリにあるNode.jsアプリケーションです。サーバー管理にはExpress、API構造にはGraphQL、データベース操作にはPrismaを使用しています。また、認証にはJWT、クラウドサービスにはAWS SDKを使用しています。
 
-## Frontend
+## フロントエンド
 
-The frontend is a Nuxt.js application located in the [frontend](frontend/) directory. It uses Vue.js for the user interface and Vue Router for routing. The frontend also uses Axios for HTTP requests and JSON Web Tokens for authentication.
-
-
+フロントエンドは、[frontend](frontend/)ディレクトリにあるNuxt.jsアプリケーションです。ユーザーインターフェースにはVue.js、ルーティングにはVue Routerを使用しています。また、HTTPリクエストにはAxios、認証にはJSON Web Tokensを使用しています。
 
 ## Technologies Used
 
@@ -25,8 +23,8 @@ The frontend is a Nuxt.js application located in the [frontend](frontend/) direc
 - Vue Router
 - Axios
 
+![Architecture Diagram](docs/architecture.png)
+
 ## License
 
 This project is licensed under the terms of the license found in the [LICENSE](LICENSE) file.
-
-![Architecture Diagram](docs/architecture.png)
