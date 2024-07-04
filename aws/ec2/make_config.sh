@@ -9,8 +9,6 @@ BASE_CONFIG=/home/ubuntu/client-configs/base.conf
 
 PUBLIC_IP=$(curl -s ifconfig.me)
 
-sed -i "s/remote \[Dynamic IP\] 443/remote ${PUBLIC_IP} 443/g" ${BASE_CONFIG}
- 
 cat ${BASE_CONFIG} \
     <(echo -e '<ca>') \
     ${KEY_DIR}/ca.crt \
@@ -22,5 +20,7 @@ cat ${BASE_CONFIG} \
     ${KEY_DIR}/ta.key \
     <(echo -e '</tls-crypt>') \
     > ${CLIENT_DIR}/${1}.ovpn
+
+sed -i "s/remote \[Dynamic IP\] 443/remote ${PUBLIC_IP} 443/g" ${CLIENT_DIR}/${1}.ovpn
 
 aws s3 cp ${CLIENT_DIR}/${1}.ovpn s3://openvpn-client-config/ --region ap-northeast-1
