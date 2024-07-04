@@ -94,14 +94,14 @@ onMounted(() => {
                 Stop CA Server
             </button>
             <section class="my-4 p-4 bg-gray-200 rounded md:ml-4">
-                <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
                     <input
                         v-model="clientName"
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+                        class="shadow bg-black appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
                         type="text" placeholder="Enter client name">
                     <button
                         @click="generateCertificate"
-                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 w-full sm:w-auto">
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 w-full md:w-auto">
                         Generate Certificate
                     </button>
                 </div>

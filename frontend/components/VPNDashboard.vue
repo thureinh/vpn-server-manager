@@ -132,27 +132,27 @@ onMounted(() => {
         <!-- Buttons Section -->
         <div class="flex flex-col md:flex-row items-center gap-4">
             <button @click="startVpnServer"
-                class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 h-16">
+                class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
                 Start VPN Server
             </button>
             <button @click="stopVpnServer"
-                class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 h-16">
+                class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
                 Stop VPN Server
             </button>
             <section class="my-4 p-4 bg-gray-200 rounded md:ml-4">
-                <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
                     <input
                         v-model="clientName"
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+                        class="shadow bg-black appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
                         type="text" placeholder="Enter client name">
                     <button
                         @click="generateCsr"
-                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 w-full sm:w-auto">
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 w-full md:w-auto">
                         Generate CSR
                     </button>
                     <button
                         @click="downloadConfigFile"
-                        class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ml-4 w-full sm:w-auto sm:ml-4 mt-4 sm:mt-0">
+                        class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ml-0 w-full md:w-auto md:ml-4 mt-4 md:mt-0">
                         Download Config File
                     </button>
                 </div>
