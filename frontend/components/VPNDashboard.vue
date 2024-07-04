@@ -139,7 +139,7 @@ onMounted(() => {
                 class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
                 Stop VPN Server
             </button>
-            <section class="my-4 p-4 bg-gray-200 rounded md:ml-4">
+            <section class="my-4 p-4 bg-gray-200 rounded md:ml-4 w-11/12">
                 <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
                     <input
                         v-model="clientName"
@@ -170,7 +170,7 @@ onMounted(() => {
                 <div class="mt-6" v-show="downloadableUrl">
                     <h3 class="text-gray-700 text-lg font-medium">Downloadable URL:</h3>
                     <p class="text-gray-600 mt-2 overflow-x-auto">
-                        <a :href="downloadableUrl" target="_blank" class="text-blue-500 underline whitespace-nowrap overflow-ellipsis overflow-hidden">
+                        <a :href="downloadableUrl" target="_blank" class="text-blue-500 underline">
                             Click here to download the config file within 5 minutes.
                         </a>
                     </p>

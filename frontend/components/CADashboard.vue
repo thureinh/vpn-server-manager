@@ -93,7 +93,7 @@ onMounted(() => {
                 class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
                 Stop CA Server
             </button>
-            <section class="my-4 p-4 bg-gray-200 rounded md:ml-4">
+            <section class="my-4 p-4 bg-gray-200 rounded md:ml-4 w-11/12">
                 <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
                     <input
                         v-model="clientName"
